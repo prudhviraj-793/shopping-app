@@ -1,21 +1,24 @@
-import { useDispatch, useSelector } from "react-redux";
-import { quanityActions } from "../../store/quantitySlice";
+import { useDispatch } from "react-redux";
+import { addToCartActions } from "../../store/addToCartSlice";
 import classes from "./CartItem.module.css";
 
 const CartItem = (props) => {
-  const item = useSelector(state => state.addToCart.cartItems)
-  const { title, total, price } = item;
+  const { title, total, quantity, price, id } = props.item;
   const dispatch = useDispatch();
-  const quantity = useSelector((state) => state.quantity.quantity);
-
   function increaseQuantityHandler(e) {
     e.preventDefault();
-    dispatch(quanityActions.increaseQuantity());
+    dispatch(
+      addToCartActions.addToCart({
+        id,
+        title,
+        price,
+      })
+    );
   }
 
   function decreaseQuantityHandler(e) {
     e.preventDefault();
-    dispatch(quanityActions.decreaseQuantity());
+    dispatch(addToCartActions.removeFromCart(id));
   }
 
   return (
